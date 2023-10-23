@@ -24,8 +24,13 @@ public class JoinController extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        try {
             JoinService service = ServiceManager.getInstance().joinService();
             service.join(req);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
