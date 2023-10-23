@@ -1,5 +1,6 @@
 package controllers.member;
 
+import static commons.ScriptUtil.*;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +11,6 @@ import models.member.JoinService;
 import models.member.ServiceManager;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/member/join")
 public class JoinController extends HttpServlet {
@@ -29,10 +29,11 @@ public class JoinController extends HttpServlet {
             JoinService service = ServiceManager.getInstance().joinService();
             service.join(req);
 
+            String url = req.getContextPath() + "/member/login";
+            go(resp, url, "parent"); // 부모창에서 이동
+
         } catch (RuntimeException e) {
-            resp.setContentType("text/html; charsest=UTF-8");
-            PrintWriter out = resp.getWriter();
-            out.printf("<script>alert('%s');</script>", e.getMessage());
+            alertError(resp, e);
 
             e.printStackTrace();
         }
